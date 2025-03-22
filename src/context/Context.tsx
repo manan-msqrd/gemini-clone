@@ -21,17 +21,29 @@ const ContextProvider = (props:any) => {
     const [resultData, setResultData] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
 
+    const delayPara = (index:number, nextword:string) => {
+        setTimeout(() => {
+            setResultData(prev => prev + nextword + " ")
+        }, 30 * index)
+    }
 
     const onSent = async () => {
-        setResultData("")
-        setLoading(true)
-        setShowResult(true)
-        setRecentPrompt(input)
-        const response = await run(input)
-        setResultData(response) 
-        setLoading(false)
-        setInput("")
-    }
+        // Reset the current state
+        setResultData("");
+        setLoading(true);
+        setShowResult(true);
+        setRecentPrompt(input);
+        const response = await run(input);
+        setResultData(response);
+        let responseArray = response.split(" ");
+        setResultData("");
+        responseArray.forEach((word, index) => {
+          delayPara(index, word);
+        });
+    
+        setLoading(false);
+        setInput("");
+      };
 
     const contextValue = {
         prevPrompts,
@@ -45,7 +57,6 @@ const ContextProvider = (props:any) => {
         input,
         setInput
     }
-
     return (
         <Context.Provider value={contextValue}>
             {props.children}

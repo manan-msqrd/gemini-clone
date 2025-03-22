@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { assets } from "../assets/assets"
 import { Context } from "../context/Context"
-
+import ReactMarkdown from "react-markdown";
 
 const Main = () => {
 
@@ -56,14 +56,35 @@ const Main = () => {
                         <hr className="rounded border-0 bg-[linear-gradient(to_right,_#9ed7ff,_#ffffff,_#9ed7ff)] bg-[length:800px_50px] h-[20px] animate-loader" />
                         <hr className="rounded border-0 bg-[linear-gradient(to_right,_#9ed7ff,_#ffffff,_#9ed7ff)] bg-[length:800px_50px] h-[20px] animate-loader" />
                     </div>
-                    : <p dangerouslySetInnerHTML={{__html:resultData || ''}}></p>
+                    : <p className="text-[17px]/1.8 font-light">{
+                        <ReactMarkdown
+                            components={{
+                                h1: ({ node, ...props }) => <h1 className="text-3xl font-bold my-4" {...props} />,
+                                h2: ({ node, ...props }) => <h2 className="text-2xl font-bold my-3" {...props} />,
+                                p: ({ node, ...props }) => <p className="my-2" {...props} />,
+                                li: ({ node, ...props }) => <li className="ml-5 list-disc" {...props} />,
+                                code: ({ node, className, children, ...props }) => (
+                                <code className="bg-gray-200 rounded px-1 font-mono text-sm" {...props}>
+                                    {children}
+                                </code>
+                                ),
+                                pre: ({ node, className, children, ...props }) => (
+                                <pre className="bg-gray-100 p-3 rounded overflow-x-auto" {...props}>
+                                    {children}
+                                </pre>
+                                ),
+                            }}
+                            >
+                            {resultData || ""}
+                            </ReactMarkdown>
+                    }</p>
                     }
                 </div>
             </div>}
             
 
             <div className="absolute w-full bottom-0 max-w-[900px] px-[10px] py-[20px] m-auto">
-                <div className="flex items-center justify-between gap-[20px] bg-[#f0f4f9] px-[10px] py-[20px] rounded-[50px]">
+                <div className="flex items-center justify-between gap-[20px] bg-[#f0f4f9] px-[20px] py-[10px] rounded-[50px]">
                     <input onChange={(e) => setInput && setInput(e.target.value)} className="flex-1 bg-transparent border-none outline-none p-[8px] text-[18px]" type="text" placeholder="Enter a prompt here..."/>
                     <div className="flex items-center gap-[15px]">
                         <img className="cursor-pointer w-[24px]" src={assets.gallery_icon} alt="" />
