@@ -5,7 +5,7 @@ import { Context } from "../context/Context";
 const SideBar = () => {
 
     const [extended, setExtended] = useState(false);
-    const {prevPrompts = [], setRecentPrompt = () => {}, prevResponse, setResultData} = useContext(Context) || {}
+    const {prevPrompts = [], setRecentPrompt = () => {}, prevResponse, setResultData, newChat} = useContext(Context) || {}
 
     const onPromptClick = async (prompt: string, index: number) => {
         setRecentPrompt(prompt);
@@ -18,7 +18,7 @@ const SideBar = () => {
     <div className='min-h-[100vh] inline-flex flex-col justify-between bg-[#f0f4f9] py-[25px] px-[15px]'>
         <div className=''>
             <img onClick={() => setExtended(prev => !prev)} className=" w-[20px] block ml-[10px] cursor-pointer" src={assets.menu_icon} alt="" />
-            <div className="mt-[50px] inline-flex items-center gap-[10px] px-[15px] py-[10px] bg-[#e6eaf1] rounded-4xl text-gray-600 cursor-pointer">
+            <div onClick={() => newChat && newChat()} className="mt-[50px] inline-flex items-center gap-[10px] px-[15px] py-[10px] bg-[#e6eaf1] rounded-4xl text-gray-600 cursor-pointer">
                 <img className="w-[20px]" src={assets.plus_icon} alt="" />
                 {extended ? <p>New Chat</p> : null}
             </div>

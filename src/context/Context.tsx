@@ -2,7 +2,7 @@ import { createContext, useState } from "react";
 import run from "../config/gemini";
 
 export interface ContextProps {
-    onSent: () => Promise<void>;
+    onSent: (prompt?:string) => void;
     recentPrompt: string;
     resultData: string;
     showResult: boolean;
@@ -15,6 +15,7 @@ export interface ContextProps {
     input: string;
     setInput: (input: string) => void;
     setResultData: (resultData: string) => void;
+    newChat: () => void;
   }
 
 export const Context = createContext<ContextProps | undefined>(undefined);
@@ -32,17 +33,22 @@ const ContextProvider = (props:any) => {
     const delayPara = (index:number, nextword:string) => {
         setTimeout(() => {
             setResultData(prev => prev + nextword + " ")
-        }, 30 * index)
+        }, 25 * index)
     }
 
-    const onSent = async () => {
-        // Reset the current state
+    const newChat = () => {
+        setLoading(false);
+        setShowResult(false);
+    }
+
+    const onSent = async (prompt?:string) => {
+        const currentPrompt = prompt || input;
         setResultData("");
         setLoading(true);
         setShowResult(true);
-        setRecentPrompt(input);
-        setPrevPrompts(prev => [...prev, input]);
-        const response = await run(input);
+        setRecentPrompt(currentPrompt);
+        setPrevPrompts(prev => [...prev, currentPrompt]);
+        const response = await run(currentPrompt);
         setResultData(response);
         setPrevResponse(prev => [...prev, response]);
         let responseArray = response.split(" ");
@@ -53,6 +59,7 @@ const ContextProvider = (props:any) => {
     
         setLoading(false);
         setInput("");
+        prompt="";
       };
 
     const contextValue = {
@@ -68,8 +75,10 @@ const ContextProvider = (props:any) => {
         setInput,
         prevResponse,
         setPrevResponse,
-        setResultData
+        setResultData,
+        newChat
     }
+
     return (
         <Context.Provider value={contextValue}>
             {props.children}
