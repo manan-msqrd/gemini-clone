@@ -16,6 +16,7 @@ export interface ContextProps {
     setInput: (input: string) => void;
     setResultData: (resultData: string) => void;
     newChat: () => void;
+    setShowResult: (showResult: boolean) => void;
   }
 
 export const Context = createContext<ContextProps | undefined>(undefined);
@@ -76,7 +77,8 @@ const ContextProvider = (props:any) => {
         prevResponse,
         setPrevResponse,
         setResultData,
-        newChat
+        newChat,
+        setShowResult
     }
 
     return (

@@ -5,9 +5,10 @@ import { Context } from "../context/Context";
 const SideBar = () => {
 
     const [extended, setExtended] = useState(false);
-    const {prevPrompts = [], setRecentPrompt = () => {}, prevResponse, setResultData, newChat} = useContext(Context) || {}
+    const {prevPrompts = [], setRecentPrompt = () => {}, prevResponse, setResultData, newChat, setShowResult} = useContext(Context) || {}
 
     const onPromptClick = async (prompt: string, index: number) => {
+        setShowResult && setShowResult(true);
         setRecentPrompt(prompt);
         if (prevResponse) {
             setResultData && setResultData(prevResponse[index]);
