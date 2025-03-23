@@ -6,7 +6,7 @@ import ReactMarkdown from "react-markdown";
 const Main = () => {
 
     const context = useContext(Context);
-    const { onSent, recentPrompt, showResult, resultData, loading, setInput, newChat } = context || {}
+    const { onSent, recentPrompt, showResult, resultData, loading, setInput, newChat, input } = context || {}
 
     return (
         <div className="flex-1 min-h-[100vh] pb-[15vh] relative">
@@ -17,7 +17,7 @@ const Main = () => {
             <div className="max-w-[900px] m-auto">
                 {!showResult ?
                     <>
-                        <div className="mx-[50px] my-0 text-[56px] text-[#c4c7c5] font-medium p-[20px]">
+                        <div className="mx-[50px] my-0 text-[#c4c7c5] font-medium p-[20px] text-[36px] sm:text-[56px] ">
                             <p>
                                 <span className="bg-clip-text text-transparent bg-[linear-gradient(16deg,#4b90ff,#ff5546)]">
                                     Hello, Dev
@@ -25,7 +25,7 @@ const Main = () => {
                             </p>
                             <p>How can I help you today?</p>
                         </div>
-                        <div className="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-[15px] p-[20px]">
+                        <div className="hidden sm:grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-[15px] p-[20px]">
                             <div onClick={() => {onSent && onSent("Suggest beautiful places to see on an upcoming trip to Singapore");
                             }} className="h-[200px] p-[15px] bg-[#f0f4f9] rounded-[10px] cursor-pointer relative hover:bg-[#dfe4ea]">
                                 <p className="text-[#585858] text-[17px]">Suggest beautiful places to see on an upcoming trip to Singapore</p>
@@ -87,11 +87,16 @@ const Main = () => {
 
                 <div className="absolute w-full bottom-0 max-w-[900px] px-[10px] py-[20px] m-auto">
                     <div className="flex items-center justify-between gap-[20px] bg-[#f0f4f9] px-[20px] py-[10px] rounded-[50px]">
-                        <input onChange={(e) => setInput && setInput(e.target.value)} className="flex-1 bg-transparent border-none outline-none p-[8px] text-[18px] font-light" type="text" placeholder="Enter a prompt here..." />
+                        <input onChange={(e) => setInput && setInput(e.target.value)} value={input} className="flex-1 bg-transparent border-none outline-none p-[8px] text-[18px] font-light" type="text" placeholder="Enter a prompt here..." />
                         <div className="flex items-center gap-[15px]">
-                            <img className="cursor-pointer w-[24px]" src={assets.gallery_icon} alt="" />
-                            <img className="cursor-pointer w-[24px]" src={assets.mic_icon} alt="" />
-                            <img onClick={() => onSent && onSent()} className="cursor-pointer w-[24px]" src={assets.send_icon} alt="" />
+                            {input ? 
+                            <img onClick={async () => {
+                                if (onSent) {
+                                  onSent();
+                                  setInput && setInput(""); // Clear the input box after onSent completes
+                                }
+                              }} className="cursor-pointer w-[24px]" src={assets.send_icon} alt="" />
+                            : null}
                         </div>
                     </div>
                     <p className="text-[13px] mx-auto my-[15px] text-center font-extralight">
