@@ -39,7 +39,7 @@ const Main = () => {
                                 <p className="text-[#585858] text-[17px]">Brainstorm team building activities</p>
                                 <img className="w-[35px] p-[5px] absolute bg-white rounded-[20px] bottom-[10px] right-[10px]" src={assets.message_icon} alt="" />
                             </div>
-                            <div onClick={() => {onSent && onSent("Suggest beautiful places to see on an upcoming road trip");}} className="h-[200px] p-[15px] bg-[#f0f4f9] rounded-[10px] cursor-pointer relative hover:bg-[#dfe4ea]">
+                            <div onClick={() => {onSent && onSent("Give me productivity tips based on the most recent researches");}} className="h-[200px] p-[15px] bg-[#f0f4f9] rounded-[10px] cursor-pointer relative hover:bg-[#dfe4ea]">
                                 <p className="text-[#585858] text-[17px]">Give me productivity tips based on the most recent researches</p>
                                 <img className="w-[35px] p-[5px] absolute bg-white rounded-[20px] bottom-[10px] right-[10px]" src={assets.code_icon} alt="" />
                             </div>
@@ -93,7 +93,7 @@ const Main = () => {
                             <img onClick={async () => {
                                 if (onSent) {
                                   onSent();
-                                  setInput && setInput(""); // Clear the input box after onSent completes
+                                  setInput && setInput("");
                                 }
                               }} className="cursor-pointer w-[24px]" src={assets.send_icon} alt="" />
                             : null}
