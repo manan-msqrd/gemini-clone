@@ -6,7 +6,7 @@ import ReactMarkdown from "react-markdown";
 const Main = () => {
 
     const context = useContext(Context);
-    const { onSent, recentPrompt, showResult, resultData, loading, setInput, newChat, input } = context || {}
+    const { onSent, recentPrompt, showResult, resultData, loading, setInput, newChat, input = "" } = context || {}
 
     return (
         <div className="flex-1 min-h-[100vh] pb-[15vh] relative">
@@ -87,7 +87,19 @@ const Main = () => {
 
                 <div className="absolute w-full bottom-0 max-w-[900px] px-[10px] py-[20px] mb-13 sm:m-auto">
                     <div className="flex items-center justify-between gap-[20px] bg-[#f0f4f9] px-[20px] py-[10px] rounded-[50px]">
-                        <input onChange={(e) => setInput && setInput(e.target.value)} value={input} className="flex-1 bg-transparent border-none outline-none p-[8px] text-[18px] font-light" type="text" placeholder="Enter a prompt here..." />
+                    <input
+                        onChange={(e) => setInput && setInput(e.target.value)}
+                        value={input}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter" && input.trim() !== "") {
+                            onSent && onSent();
+                            setInput && setInput("");
+                            }
+                        }}
+                        className="flex-1 bg-transparent border-none outline-none p-[8px] text-[18px] font-light"
+                        type="text"
+                        placeholder="Enter a prompt here..."
+                        />
                         <div className="flex items-center gap-[15px]">
                             {input ? 
                             <img onClick={async () => {
